@@ -1,7 +1,3 @@
-const mathInt = number => {
-    if(isNaN(new Number(number))) return NaN;
-    else return Math.floor(number);
-}
 class SolarDate {
     constructor(_day, _month, _year) {
         var sd = parseInt(_day);
