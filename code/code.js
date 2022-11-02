@@ -26,5 +26,16 @@ const monthCalendar = (_month, _year) => {
             tb_month.removeChild(dRows[i]);
         }
     }
-    
+    var ldMonth = new SolarDate(endMonth(_month, _year), _month, _year);
+    var ndRows = ldMonth.weekOfMonth() + 1;
+    for(i=0;i<ndRows;i++) {
+        var rDates = document.createElement('tr');
+        rDates.className = 'daterow';
+        for(j=0;j<7;j++) {
+            var cDates = document.createElement('td');
+            cDates.innerText = i.toString() + j.toString();
+            rDates.appendChild(cDates);
+        }
+        tb_month.appendChild(rDates);
+    }
 }
