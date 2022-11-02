@@ -10,6 +10,32 @@ class SolarDate {
             else this.Day = sd;
         }
     }
+    dayOfWeek() {
+        return this.getJulianDate() % 7;
+    }
+    dayOfYear() {
+        var fDate = new SolarDate(1, 1, this.Year);
+        var jFst = fDate.getJulianDate();
+        return this.getJulianDate() - jFst;
+    }
+    sunLongitude(timeZone) {
+        return sunLongitude(this.getJulian(timeZone), timeZone);
+    }
+    solarTerm(timeZone) {
+        return Math.floor(this.sunLongitude(timeZone) / 15);
+    }
+    weekOfMonth() {
+        var fMonth = new SolarDate(1, this.Month, this.Year);
+        var mWeek = Math.floor(fMonth.getJulianDate() / 7);
+        var tWeek = Math.floor(this.getJulianDate() / 7);
+        return tWeek - mWeek;
+    }
+    weekOfYear() {
+        var fYear = new SolarDate(1, 1, this.Year);
+        var yWeek = Math.floor(fYear.getJulianDate() / 7);
+        var tWeek = Math.floor(this.getJulianDate() / 7);
+        return tWeek - yWeek;
+    }
     getJulian(timeZone) {
         return julianNumber(timeZone, this.Hour, this.Minute, this.Day, this.Month, this.Year);
     }
@@ -17,9 +43,7 @@ class SolarDate {
         return toJulian(this.Day, this.Month, this.Year);
     }
     getLunarDate(timeZone) {
-        var sdate = new LunarDate(timeZone);
-        sdate.setFromSolarDate(this);
-        return sdate;
+        return new LunarDate(this,timeZone);
     }
     setFromDate(_date) {
         if(_date instanceof Date) {
@@ -36,20 +60,18 @@ class SolarDate {
     }
 }
 class LunarDate {
-    constructor(_timeZone) {
+    constructor(_solardate, _timeZone) {
         this.Day = 25; this.Month = 11; this.Year = 1999; this.Leap = false;
         if(isNaN(_timeZone)) this.TimeZone = 7;
         else {
             this.TimeZone = (_timeZone<-12)?-12:((_timeZone>14)?14:_timeZone);
-        }
-    }
-    setFromSolarDate(_solardate) {
-        if(_solardate instanceof SolarDate) {
-            var arrDate = solarToLunar(_solardate.Day, _solardate.Month, _solardate.Year, this.TimeZone);
-            this.Day = arrDate[0];
-            this.Month = arrDate[1];
-            this.Year = arrDate[2];
-            this.Leap = (arrDate[3]==0)?false:true;
+            if(_solardate instanceof SolarDate) {
+                var arrDate = solarToLunar(_solardate.Day, _solardate.Month, _solardate.Year, this.TimeZone);
+                this.Day = arrDate[0];
+                this.Month = arrDate[1];
+                this.Year = arrDate[2];
+                this.Leap = (arrDate[3]==0)?false:true;
+            }
         }
     }
     toString(leapStr) {
