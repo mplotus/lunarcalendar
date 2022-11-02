@@ -1,7 +1,14 @@
 class SolarDate {
-    constructor() {
-        this.Day = 1; this.Month = 1; this.Year = 2000;
+    constructor(_day, _month, _year) {
         this.Hour = 0; this.Minute = 0; this.Second = 0;
+        var sd = parseInt(_day); var sm = parseInt(_month); var sy = parseInt(_year);
+        if(!isNaN(sd) && !isNaN(sm) && !isNaN(sy)) {
+            this.Year = (sy < 0) ? 0 : ((sy > 3000) ? 3000 : sy);
+            this.Month = (sm < 1) ? 1 : ((sm > 12) ? 12 : sm);
+            if(sd < 1) this.Day = 1;
+            else if(sd > endMonth(this.Month, this.Year)) this.Day = endMonth(this.Month, this.Year);
+            else this.Day = sd;
+        }
     }
     getJulian(timeZone) {
         return julianNumber(timeZone, this.Hour, this.Minute, this.Day, this.Month, this.Year);
@@ -9,17 +16,10 @@ class SolarDate {
     getJulianDate() {
         return toJulian(this.Day, this.Month, this.Year);
     }
-    getLunarDate() {
-        
-    }
-    setFromNumber(_day, _month, _year) {
-        var sd = parseInt(_day); var sm = parseInt(_month); var sy = parseInt(_year);
-        if(!isNaN(sd) && !isNaN(sm) && !isNaN(sy)) {
-            this.Year = (sy < 0) ? 0 : ((sy > 3000) ? 3000 : sy);
-            this.Month = (sm < 1) ? 1 : ((sm > 12) ? 12 : sm);
-            this.Day = (sd < 1) ? 1 : ((sd > endMonth(this.Month, this.Year)) ? 
-                        endMonth(this.Month, this.Year) : sd);
-        }
+    getLunarDate(timeZone) {
+        var sdate = new LunarDate(timeZone);
+        sdate.setFromSolarDate(this);
+        return sdate;
     }
     setFromDate(_date) {
         if(_date instanceof Date) {
@@ -31,14 +31,30 @@ class SolarDate {
             this.Second = _date.getSeconds();
         }
     }
-    toString(_sep) {
-        if(_sep.length == 1 && isNaN(parseInt(_sep))) return this.Day + _sep + this.Month + _sep + this.Year;
-        else return this.Day + '/' + this.Month + '/' + this.Year;
+    toString() {
+        return this.Day + '/' + this.Month + '/' + this.Year;
     }
 }
 class LunarDate {
-    constructor() {
+    constructor(_timeZone) {
         this.Day = 25; this.Month = 11; this.Year = 1999; this.Leap = false;
+        if(isNaN(_timeZone)) this.TimeZone = 7;
+        else {
+            this.TimeZone = (_timeZone<-12)?-12:((_timeZone>14)?14:_timeZone);
+        }
+    }
+    setFromSolarDate(_solardate) {
+        if(_solardate instanceof SolarDate) {
+            var arrDate = solarToLunar(_solardate.Day, _solardate.Month, _solardate.Year, this.TimeZone);
+            this.Day = arrDate[0];
+            this.Month = arrDate[1];
+            this.Year = arrDate[2];
+            this.Leap = (arrDate[3]==0)?false:true;
+        }
+    }
+    toString(leapStr) {
+        var lStr = (this.Leap == 0)?'':('('+ leapStr + ')');
+        return this.Day + '/' + this.Month + lStr + '/' + this.Year;
     }
 }
 const endMonth = (_month, _year) => {
@@ -47,14 +63,9 @@ const endMonth = (_month, _year) => {
         else return 28;
     }
     else {
-        switch (_month) {
-            case 1,3,5,7,8,10,12 : 
-                return 31;
-            case 4,6,9,11 : 
-                return 30;
-            default : 
-                return 0;
-        }
+        if(_month==1 || _month==3 || _month==5 || _month==7 || _month==8 || _month==10 || _month==12) return 31;
+        else if(_month==4 || _month==6 || _month==9 || _month==11) return 30;
+        else return NaN;
     }
 }
 const julianNumber = (timeZone, _hour, _minute, _day, _month, _year) => {
@@ -126,7 +137,7 @@ const newMoon = (k, timeZone) => {
 const sunLongitude = (_julian, timeZone) => {
     var T, T2, dr, M, L0, DL, L;
     var PI = Math.PI;
-    T = (_julian - 2451545.5 - timeZone/24) / 36525; // Time in Julian centuries from 2000-01-01 12:00:00 GMT
+    T = (_julian - 2451545.5 - timeZone / 24) / 36525.0; // Time in Julian centuries from 2000-01-01 12:00:00 GMT
     T2 = T*T;
     dr = PI/180; // degree to radian
     M = 357.52910 + 35999.05030*T - 0.0001559*T2 - 0.00000048*T*T2; // mean anomaly, degree
@@ -137,4 +148,69 @@ const sunLongitude = (_julian, timeZone) => {
     L = L*dr;
     L = L - PI*2*(Math.floor(L/(PI*2))); // Normalize to (0, 2*PI)
     return (L * 180.0 / PI);
+}
+const solarTerm = (_julian, timeZone) => {
+    return Math.floor(sunLongitude(_julian, timeZone) / 30);
+}
+const preWinterSolstice = (_year, timeZone) => {
+    var k, off, nm, sunLong;
+    off = toJulian(31, 12, _year) - 2415021;
+    k = Math.floor(off / 29.530588853);
+    nm = newMoon(k, timeZone);
+    sunLong = solarTerm(nm, timeZone); // sun longitude at local midnight
+    if (sunLong >= 9) {
+        nm = newMoon(k-1, timeZone);
+    }
+    return nm;
+}
+const leapMonthOffset = (a11, timeZone) => {
+    var k, last, arc, i;
+    k = Math.floor((a11 - 2415021.076998695) / 29.530588853 + 0.5);
+    last = 0;
+    i = 1; // We start with the month following lunar month 11
+    arc = solarTerm(newMoon(k+i, timeZone), timeZone);
+    do {
+        last = arc;
+        i++;
+        arc = solarTerm(newMoon(k+i, timeZone), timeZone);
+    } while (arc != last && i < 14);
+    return i-1;
+}
+const solarToLunar = (_day, _month, _year, timeZone) => {
+    var k, dayNumber, monthStart, a11, b11, lunarDay, lunarMonth, lunarYear, lunarLeap;
+    dayNumber = toJulian(_day, _month, _year);
+    k = Math.floor((dayNumber - 2415021.076998695) / 29.530588853);
+    monthStart = newMoon(k+1, timeZone);
+    if (monthStart > dayNumber) {
+        monthStart = newMoon(k, timeZone);
+    }
+    a11 = preWinterSolstice(_year, timeZone);
+    b11 = a11;
+    if (a11 >= monthStart) {
+        lunarYear = _year;
+        a11 = preWinterSolstice(_year-1, timeZone);
+    } else {
+        lunarYear = _year+1;
+        b11 = preWinterSolstice(_year+1, timeZone);
+    }
+    lunarDay = dayNumber-monthStart+1;
+    diff = Math.floor((monthStart - a11)/29.0);
+    lunarLeap = 0;
+    lunarMonth = diff+11;
+    if (b11 - a11 > 365) {
+        leapMonthDiff = leapMonthOffset(a11, timeZone);
+        if (diff >= leapMonthDiff) {
+            lunarMonth = diff + 10;
+            if (diff == leapMonthDiff) {
+                lunarLeap = 1;
+            }
+        }
+    }
+    if (lunarMonth > 12) {
+        lunarMonth = lunarMonth - 12;
+    }
+    if (lunarMonth >= 11 && diff < 4) {
+        lunarYear -= 1;
+    }
+    return new Array(lunarDay,lunarMonth,lunarYear,lunarLeap);
 }
