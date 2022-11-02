@@ -33,9 +33,20 @@ const monthCalendar = (_month, _year) => {
         rDates.className = 'daterow';
         for(j=0;j<7;j++) {
             var cDates = document.createElement('td');
-            cDates.innerText = i.toString() + j.toString();
+            cDates.classList.add('date_normal');
+            cDates.id = 'cell' + i.toString() + j.toString();
             rDates.appendChild(cDates);
         }
         tb_month.appendChild(rDates);
+    }
+    for(i=1;i<=ldMonth.Day;i++) {
+        var iDate = new SolarDate(i, _month, _year);
+        var iCol = iDate.dayOfWeek();
+        var iRow = iDate.weekOfMonth();
+        var soDate = document.createElement('div');
+        soDate.classList.add('solar_normal');
+        soDate.innerText = i;
+        var ceDate = document.getElementById('cell' + iRow + iCol);
+        ceDate.appendChild(soDate);
     }
 }

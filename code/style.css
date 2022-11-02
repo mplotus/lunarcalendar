@@ -26,6 +26,25 @@
     font-size: 100%;
     width:100%;
 }
+.date_normal {
+    border: 0px;
+    border-radius: 10px;
+}
+.solar_normal {
+    user-select: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    font-size: 200%;
+}
+.date_hover {
+    border: 1px dotted rgb(0,128,255);
+    border-radius: 10px;
+}
+.date_selected {
+    border: 1px dotted rgb(0,128,255);
+    border-radius: 10px;
+}
 #right_panel {
     float: left;
     width: 100%;
