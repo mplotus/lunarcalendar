@@ -20,10 +20,11 @@ const page_load = () => {
     monthCalendar(dNow.getMonth()+1,dNow.getFullYear());
 }
 const monthCalendar = (_month, _year) => {
-    var dRows = tb_month.getElementsByClassName('daterow');
+    var dNow = new Date();
+    var dRows = document.getElementsByClassName('daterow');
     if(dRows.length!=0) {
-        for(i=0;i<dRows.length;i++) {
-            tb_month.removeChild(dRows[i]);
+        while(dRows.length!=0) {
+            tb_month.removeChild(dRows[0]);
         }
     }
     var ldMonth = new SolarDate(endMonth(_month, _year), _month, _year);
@@ -33,7 +34,7 @@ const monthCalendar = (_month, _year) => {
         rDates.className = 'daterow';
         for(j=0;j<7;j++) {
             var cDates = document.createElement('td');
-            cDates.classList.add('date_normal');
+            cDates.classList.add('cell_normal');
             cDates.id = 'cell' + i.toString() + j.toString();
             rDates.appendChild(cDates);
         }
@@ -43,10 +44,31 @@ const monthCalendar = (_month, _year) => {
         var iDate = new SolarDate(i, _month, _year);
         var iCol = iDate.dayOfWeek();
         var iRow = iDate.weekOfMonth();
-        var soDate = document.createElement('div');
-        soDate.classList.add('solar_normal');
-        soDate.innerText = i;
+        var infDate = document.createElement('div');
+        if(i==dNow.getDate() && _month==(dNow.getMonth() + 1) && _year==dNow.getFullYear())
+            infDate.classList.add('date_today');
+        else
+            infDate.classList.add('date_normal');
+        var lDate = iDate.getLunarDate(7);
+        var lStr = '';
+        if(i==1 || lDate.Day==1) lStr = lDate.Day + '/' + lDate.Month + ((lDate.Leap)?'*':'');
+        else lStr = lDate.Day;
+        infDate.innerHTML = '<center><b>' + i + '</b></center>' + 
+            '<div style=\'font-size: 60%; text-align: right; width: 90%;\'>' + lStr + '</div>';
+        infDate.id = 'datecell' + iRow + iCol;
+        infDate.addEventListener('mouseenter', infDate_mouseover);
+        infDate.addEventListener('mouseleave', infDate_mouseover);
         var ceDate = document.getElementById('cell' + iRow + iCol);
-        ceDate.appendChild(soDate);
+        ceDate.appendChild(infDate);
     }
+}
+const ip_month_change = () => {
+    var _year = ip_month.value.toString().substring(0,4);
+    var _month = ip_month.value.toString().substring(5,7);
+    monthCalendar(_month, _year);
+}
+const infDate_mouseover = (event) => {
+    var infId = event.currentTarget.id.substring(4,10);
+    var outCell = document.getElementById(infId);
+    outCell.classList.toggle('cell_hover');
 }

@@ -26,22 +26,37 @@
     font-size: 100%;
     width:100%;
 }
+.cell_normal {
+    border: 1px solid rgb(255,255,255);
+    border-radius: 10px;
+}
 .date_normal {
+    user-select: none;
+    cursor: pointer;
+    width: 96%;
+    text-align: center;
+    font-size: 140%;
+    margin: 2%;
+    background: white;
+    color: #606060;
+}
+.date_today {
+    user-select: none;
+    cursor: pointer;
+    width: 96%;
+    text-align: center;
+    font-size: 140%;
+    margin: 2%;
+    background: rgb(96,192,255);
+    color: white;
     border: 0px;
     border-radius: 10px;
 }
-.solar_normal {
-    user-select: none;
-    cursor: pointer;
-    width: 100%;
-    text-align: center;
-    font-size: 200%;
-}
-.date_hover {
-    border: 1px dotted rgb(0,128,255);
+.cell_hover {
+    border: 1px dashed rgb(0,128,255);
     border-radius: 10px;
 }
-.date_selected {
+.cell_selected {
     border: 1px dotted rgb(0,128,255);
     border-radius: 10px;
 }
