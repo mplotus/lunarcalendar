@@ -12,16 +12,16 @@
             <table id='tb_navigator'>
                 <tr>
                     <td>
-                        <select id='sl_timezone'>
-                            <option selected>GMT +7</option>
-                            <option>GMT +8</option>
+                        <select id='sl_timezone' onchange='ip_month_change()'>
+                            <option selected>+7</option>
+                            <option>+8</option>
                         </select>
                     </td>
                     <td>
                         <input type='month' id='ip_month' onchange='ip_month_change()'>
                     </td>
                     <td>
-                        <button id='bt_reset'>Reset</button>
+                        <button id='bt_reset' onclick='bt_reset_click()'>Reset</button>
                     </td>
                 </tr>
             </table>

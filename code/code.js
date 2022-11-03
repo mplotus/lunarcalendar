@@ -1,6 +1,7 @@
-var ip_month, tb_month;
+var ip_month, tb_month, sl_timezone;
 const page_load = () => {
     // Initialize control of page
+    sl_timezone = document.getElementById('sl_timezone');
     ip_month = document.getElementById('ip_month');
     tb_month = document.getElementById('tb_month');
     // Event when page load
@@ -17,8 +18,10 @@ const page_load = () => {
         mHeader.appendChild(eHeader);
     }
     tb_month.appendChild(mHeader);
+    selectedDate = new SolarDate(dNow.getDate(), dNow.getMonth() + 1, dNow.getFullYear());
     monthCalendar(dNow.getMonth()+1,dNow.getFullYear());
 }
+var selectedDate;
 const monthCalendar = (_month, _year) => {
     var dNow = new Date();
     var dRows = document.getElementsByClassName('daterow');
@@ -40,6 +43,7 @@ const monthCalendar = (_month, _year) => {
         }
         tb_month.appendChild(rDates);
     }
+    var lTimezone = (sl_timezone.selectedIndex==0)?7:8;
     for(i=1;i<=ldMonth.Day;i++) {
         var iDate = new SolarDate(i, _month, _year);
         var iCol = iDate.dayOfWeek();
@@ -49,15 +53,20 @@ const monthCalendar = (_month, _year) => {
             infDate.classList.add('date_today');
         else
             infDate.classList.add('date_normal');
-        var lDate = iDate.getLunarDate(7);
+        if(i==selectedDate.Day && _month==selectedDate.Month && _year==selectedDate.Year) {
+            var selCell = document.getElementById('cell' + iRow + '' + iCol);
+            selCell.classList.add('cell_selected');
+        }
+        var lDate = iDate.getLunarDate(lTimezone);
         var lStr = '';
         if(i==1 || lDate.Day==1) lStr = lDate.Day + '/' + lDate.Month + ((lDate.Leap)?'*':'');
         else lStr = lDate.Day;
         infDate.innerHTML = '<center><b>' + i + '</b></center>' + 
-            '<div style=\'font-size: 60%; text-align: right; width: 90%;\'>' + lStr + '</div>';
-        infDate.id = 'datecell' + iRow + iCol;
-        infDate.addEventListener('mouseenter', infDate_mouseover);
-        infDate.addEventListener('mouseleave', infDate_mouseover);
+            '<div style=\'font-size: 45%; text-align: right; width: 90%;\'>' + lStr + '</div>';
+        infDate.id = 'datecell' + iRow.toString() + iCol.toString() + i.toString();
+        infDate.addEventListener('mouseenter', infDate_hover);
+        infDate.addEventListener('mouseleave', infDate_hover);
+        infDate.addEventListener('click', infDate_click);
         var ceDate = document.getElementById('cell' + iRow + iCol);
         ceDate.appendChild(infDate);
     }
@@ -67,8 +76,29 @@ const ip_month_change = () => {
     var _month = ip_month.value.toString().substring(5,7);
     monthCalendar(_month, _year);
 }
-const infDate_mouseover = (event) => {
+const bt_reset_click = () => {
+    var dNow = new Date();
+    selectedDate = new SolarDate(dNow.getDate(), dNow.getMonth() + 1, dNow.getFullYear());
+    ip_month.value = dNow.getFullYear() + '-' + ((dNow.getMonth() < 9) ? 
+        ('0' + (dNow.getMonth() + 1)) : (dNow.getMonth() + 1));
+    monthCalendar(dNow.getMonth() + 1, dNow.getFullYear());
+}
+const infDate_hover = (event) => {
     var infId = event.currentTarget.id.substring(4,10);
     var outCell = document.getElementById(infId);
     outCell.classList.toggle('cell_hover');
+}
+const infDate_click = (event) => {
+    var cells = document.getElementsByClassName('cell_normal');
+    var thisId = event.currentTarget.id;
+    for(i=0;i<cells.length;i++) {
+        cells[i].classList.remove('cell_selected');
+    }
+    var roundMe = thisId.substring(4,10);
+    var ctrlMe = document.getElementById(roundMe);
+    ctrlMe.classList.add('cell_selected');
+    var selDay = thisId.substring(10, thisId.length);
+    var _year = ip_month.value.toString().substring(0,4);
+    var _month = ip_month.value.toString().substring(5,7);
+    selectedDate = new SolarDate(selDay, _month, _year);
 }
