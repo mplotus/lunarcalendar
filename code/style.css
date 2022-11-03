@@ -89,4 +89,7 @@ body {
     body {
         font-size: 120%;
     }
+    #tb_month {
+        font-size: 140%;
+    }
 }
