@@ -49,6 +49,16 @@
     background: white;
     color: #606060;
 }
+.date_sunday {
+    user-select: none;
+    cursor: pointer;
+    width: 96%;
+    text-align: center;
+    font-size: 120%;
+    margin: 2%;
+    background: white;
+    color: #ff8080;
+}
 .date_today {
     user-select: none;
     cursor: pointer;

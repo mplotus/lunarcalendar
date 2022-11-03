@@ -14,7 +14,8 @@ const page_load = () => {
     for(i=0;i<7;i++) {
         var eHeader = document.createElement('th');
         eHeader.innerText = dows[i];
-        eHeader.style = 'color: #606060;';
+        if(i!=6) eHeader.style = 'color: #606060;';
+        else eHeader.style = 'color: #ff8080'
         mHeader.appendChild(eHeader);
     }
     tb_month.appendChild(mHeader);
@@ -51,8 +52,10 @@ const monthCalendar = (_month, _year) => {
         var infDate = document.createElement('div');
         if(i==dNow.getDate() && _month==(dNow.getMonth() + 1) && _year==dNow.getFullYear())
             infDate.classList.add('date_today');
-        else
-            infDate.classList.add('date_normal');
+        else {
+            if(iCol!=6) infDate.classList.add('date_normal');
+            else infDate.classList.add('date_sunday');
+        }
         if(i==selectedDate.Day && _month==selectedDate.Month && _year==selectedDate.Year) {
             var selCell = document.getElementById('cell' + iRow + '' + iCol);
             selCell.classList.add('cell_selected');
