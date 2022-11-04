@@ -84,23 +84,38 @@
     padding: 2%;
     font-size: 100%;
     width: 96%;
-    height: 96%;
+    height: 100%;
     background: aquamarine;
 }
-.date_panel_hide {
+#date_panel_1 {
     position: absolute;
     padding: 2%;
     font-size: 100%;
     width: 96%;
-    height: 96%;
-    top: 100%;
-    display: block;
-    overflow: hidden;
+    height: 100%;
     background: rgb(96,192,255);
+}
+#date_panel_2 {
+    position: absolute;
+    padding: 2%;
+    font-size: 100%;
+    width: 96%;
+    height: 100%;
+    background: rgb(128,224,255);
+}
+.date_hide {
+    top: 100%;
     transition: 0.5s ease;
 }
-.date_panel_show {
+.date_show {
     top: 0;
+    transition: 0.5s ease;
+}
+.date_mid {
+    z-index: -1;
+}
+.date_behind {
+    z-index: -2;
 }
 body {
     font-size: 140%;

@@ -1,4 +1,4 @@
-var ip_month, tb_month, sl_timezone;
+var ip_month, tb_month, sl_timezone, date_0, date_1, date_2;
 var _dayOfWeek = [['T2',String.fromCharCode(0x4e00)],['T3',String.fromCharCode(0x4e8c)],
                     ['T4',String.fromCharCode(0x4e09)],['T5',String.fromCharCode(0x56db)],
                     ['T6',String.fromCharCode(0x4e94)],['T7',String.fromCharCode(0x516d)],
@@ -8,6 +8,9 @@ const page_load = () => {
     sl_timezone = document.getElementById('sl_timezone');
     ip_month = document.getElementById('ip_month');
     tb_month = document.getElementById('tb_month');
+    date_0 = document.getElementById('date_panel_0');
+    date_1 = document.getElementById('date_panel_1');
+    date_2 = document.getElementById('date_panel_2');
     // Event when page load
     var dNow = new Date();
     ip_month.value = dNow.getFullYear() + '-' + ((dNow.getMonth() < 9) ? 
@@ -99,6 +102,12 @@ const infDate_hover = (event) => {
     var outCell = document.getElementById(infId);
     outCell.classList.toggle('cell_hover');
 }
+const pullId = date_panel => {
+    var index = date_panel.substring(11,12);
+    if(index == '2') return 'date_panel_0';
+    else if(index == '1') return 'date_panel_2';
+    else return 'date_panel_1';
+}
 const infDate_click = (event) => {
     var cells = document.getElementsByClassName('cell_normal');
     var thisId = event.currentTarget.id;
@@ -112,6 +121,19 @@ const infDate_click = (event) => {
     var _year = ip_month.value.toString().substring(0,4);
     var _month = ip_month.value.toString().substring(5,7);
     selectedDate = new SolarDate(selDay, _month, _year);
-    var datePanel = document.getElementById('date_panel_1');
-    datePanel.classList.toggle('date_panel_show');
+    var dId0, dId1, dId2;
+    dId0 = pullId(date_0.id);
+    dId1 = pullId(date_1.id);
+    dId2 = pullId(date_2.id);
+    date_0.classList.toggle('date_mid');
+    date_0.classList.toggle('date_hide');
+    date_0.classList.toggle('date_show');
+    date_1.classList.toggle('date_mid');
+    date_1.classList.toggle('date_behind');
+    date_2.classList.toggle('date_behind');
+    date_2.classList.toggle('date_show');
+    date_2.classList.toggle('date_hide');
+    date_0 = document.getElementById(dId0);
+    date_1 = document.getElementById(dId1);
+    date_2 = document.getElementById(dId2);
 }
