@@ -1,4 +1,8 @@
 var ip_month, tb_month, sl_timezone;
+var _dayOfWeek = [['T2',String.fromCharCode(0x4e00)],['T3',String.fromCharCode(0x4e8c)],
+                    ['T4',String.fromCharCode(0x4e09)],['T5',String.fromCharCode(0x56db)],
+                    ['T6',String.fromCharCode(0x4e94)],['T7',String.fromCharCode(0x516d)],
+                    ['CN',String.fromCharCode(0x65e5)]];
 const page_load = () => {
     // Initialize control of page
     sl_timezone = document.getElementById('sl_timezone');
@@ -8,12 +12,12 @@ const page_load = () => {
     var dNow = new Date();
     ip_month.value = dNow.getFullYear() + '-' + ((dNow.getMonth() < 9) ? 
         ('0' + (dNow.getMonth() + 1)) : (dNow.getMonth() + 1));
-    var dows = ['T2','T3','T4','T5','T6','T7','CN'];
     var mHeader = document.createElement('tr');
     mHeader.className = 'header';
     for(i=0;i<7;i++) {
         var eHeader = document.createElement('th');
-        eHeader.innerText = dows[i];
+        eHeader.className = 'dayOfWeeks';
+        eHeader.innerText = _dayOfWeek[i][0];
         if(i!=6) eHeader.style = 'color: #606060;';
         else eHeader.style = 'color: #ff8080'
         mHeader.appendChild(eHeader);
@@ -77,6 +81,10 @@ const monthCalendar = (_month, _year) => {
 const ip_month_change = () => {
     var _year = ip_month.value.toString().substring(0,4);
     var _month = ip_month.value.toString().substring(5,7);
+    var dows = document.getElementsByClassName('dayOfWeeks');
+    for(i=0;i<dows.length;i++) {
+        dows[i].innerText = _dayOfWeek[i][sl_timezone.selectedIndex];
+    }
     monthCalendar(_month, _year);
 }
 const bt_reset_click = () => {
@@ -104,4 +112,6 @@ const infDate_click = (event) => {
     var _year = ip_month.value.toString().substring(0,4);
     var _month = ip_month.value.toString().substring(5,7);
     selectedDate = new SolarDate(selDay, _month, _year);
+    var datePanel = document.getElementById('date_panel_1');
+    datePanel.classList.toggle('date_panel_show');
 }

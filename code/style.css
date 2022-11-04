@@ -74,6 +74,33 @@
 #right_panel {
     float: left;
     width: 100%;
+    height: 100%;
+    user-select: none;
+    overflow: hidden;
+    position: relative;
+}
+#date_panel_0 {
+    position: absolute;
+    padding: 2%;
+    font-size: 100%;
+    width: 96%;
+    height: 96%;
+    background: aquamarine;
+}
+.date_panel_hide {
+    position: absolute;
+    padding: 2%;
+    font-size: 100%;
+    width: 96%;
+    height: 96%;
+    top: 100%;
+    display: block;
+    overflow: hidden;
+    background: rgb(96,192,255);
+    transition: 0.5s ease;
+}
+.date_panel_show {
+    top: 0;
 }
 body {
     font-size: 140%;
@@ -81,10 +108,10 @@ body {
 /* For tablet and desktop */
 @media only screen and (min-width:600px) {
     #left_panel {
-        width: 50%;
+        width: 60%;
     }
     #right_panel {
-        width: 50%;
+        width: 40%;
     }
     body {
         font-size: 120%;
