@@ -27,8 +27,13 @@ const page_load = () => {
     }
     tb_month.appendChild(mHeader);
     selectedDate = new SolarDate(dNow.getDate(), dNow.getMonth() + 1, dNow.getFullYear());
+    shownPanel = 1;
+    printPaper(selectedDate);
+    slidePaper();
     monthCalendar(dNow.getMonth()+1,dNow.getFullYear());
+    for(i=0;i<7;i++) console.log(vnDOWName[i]);
 }
+var shownPanel;
 var selectedDate;
 const monthCalendar = (_month, _year) => {
     var dNow = new Date();
@@ -84,11 +89,15 @@ const monthCalendar = (_month, _year) => {
 const ip_month_change = () => {
     var _year = ip_month.value.toString().substring(0,4);
     var _month = ip_month.value.toString().substring(5,7);
+    monthCalendar(_month, _year);
+}
+const sl_timezone_change = () => {
     var dows = document.getElementsByClassName('dayOfWeeks');
     for(i=0;i<dows.length;i++) {
         dows[i].innerText = _dayOfWeek[i][sl_timezone.selectedIndex];
     }
-    monthCalendar(_month, _year);
+    ip_month_change();
+    printPaper(selectedDate);
 }
 const bt_reset_click = () => {
     var dNow = new Date();
@@ -96,6 +105,8 @@ const bt_reset_click = () => {
     ip_month.value = dNow.getFullYear() + '-' + ((dNow.getMonth() < 9) ? 
         ('0' + (dNow.getMonth() + 1)) : (dNow.getMonth() + 1));
     monthCalendar(dNow.getMonth() + 1, dNow.getFullYear());
+    printPaper(selectedDate);
+    slidePaper();
 }
 const infDate_hover = (event) => {
     var infId = event.currentTarget.id.substring(4,10);
@@ -107,6 +118,11 @@ const pullId = date_panel => {
     if(index == '2') return 'date_panel_0';
     else if(index == '1') return 'date_panel_2';
     else return 'date_panel_1';
+}
+const around2 = number => {
+    if(number==0) return 1;
+    else if(number==1) return 2;
+    else return 0;
 }
 const infDate_click = (event) => {
     var cells = document.getElementsByClassName('cell_normal');
@@ -120,7 +136,13 @@ const infDate_click = (event) => {
     var selDay = thisId.substring(10, thisId.length);
     var _year = ip_month.value.toString().substring(0,4);
     var _month = ip_month.value.toString().substring(5,7);
-    selectedDate = new SolarDate(selDay, _month, _year);
+    if(selDay!=selectedDate.Day || _month!=selectedDate.Month || _year!=selectedDate.Year) {
+        selectedDate = new SolarDate(selDay, _month, _year);
+        printPaper(selectedDate);
+        slidePaper();
+    }
+}
+const slidePaper = () => {
     var dId0, dId1, dId2;
     dId0 = pullId(date_0.id);
     dId1 = pullId(date_1.id);
@@ -136,4 +158,31 @@ const infDate_click = (event) => {
     date_0 = document.getElementById(dId0);
     date_1 = document.getElementById(dId1);
     date_2 = document.getElementById(dId2);
+    shownPanel = around2(shownPanel);
+}
+const enMonthName = ['January','February','March','April','May','June',
+                     'July', 'August','September','October','November', 'December'];
+const vnDOWName = [String.fromCharCode(0x54,0x68,0x1b0,0x301,0x20,0x48,0x61,0x69),
+                    String.fromCharCode(0x54,0x68,0x1b0,0x301,0x20,0x42,0x61),
+                    String.fromCharCode(0x54,0x68,0x1b0,0x301,0x20,0x54,0x1b0),
+                    String.fromCharCode(0x54,0x68,0x1b0,0x301,0x20,0x4e,0x103,0x6d),
+                    String.fromCharCode(0x54,0x68,0x1b0,0x301,0x20,0x53,0xe1,0x75),
+                    String.fromCharCode(0x54,0x68,0x1b0,0x301,0x20,0x42,0x61,0x309,0x79),
+                    String.fromCharCode(0x43,0x68,0x75,0x309,0x20,0x4e,0x68,0xe2,0x323,0x74)];
+const printPaper = (_date) => {
+    var panel = document.getElementsByClassName('panel_' + shownPanel.toString());
+    var dow = _date.dayOfWeek();
+    var themeColor;
+    if(dow<6) {
+        themeColor = ['#99d7ff','#60c0ff'];
+    }
+    else {
+        themeColor = ['#ffa8ae','#ff8080'];
+    }
+    panel[0].style = 'width: 100%; height: auto; font-size: 150%; padding: 2%;' + 
+    'font-weight: bold; color: white; background:' + themeColor[0] + ';';
+    panel[0].innerText = enMonthName[_date.Month - 1].toUpperCase();
+    panel[1].style = 'width: 100%; height: auto; font-size: 200%; padding: 2%;' +
+    'font-weight: bold; color: white; background:' + themeColor[1] + '; text-align: right;';
+    panel[1].innerText = _date.Year;
 }

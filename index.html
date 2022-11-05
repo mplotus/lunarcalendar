@@ -12,7 +12,7 @@
             <table id='tb_navigator'>
                 <tr>
                     <td>
-                        <select id='sl_timezone' onchange='ip_month_change()'>
+                        <select id='sl_timezone' onchange='sl_timezone_change()'>
                             <option selected>+7</option>
                             <option>+8</option>
                         </select>
@@ -29,13 +29,46 @@
         </div>
         <div id='right_panel'>
             <div id='date_panel_0' class='date_show date_mid'>
-                Date panel 0
+                <table class='topMY'>
+                    <tr>
+                        <td style='width: 60%;'>
+                            <!-- Display solar month, index 0 -->
+                            <div class='panel_0'></div>
+                        </td>
+                        <td style='width: 40%;'>
+                            <!-- Display solar year, index 1 -->
+                            <div class='panel_0'></div>
+                        </td>
+                    </tr>
+                </table>
             </div>
             <div id='date_panel_1' class='date_show date_behind'>
-                Date panel 1
+                <table class='topMY'>
+                    <tr>
+                        <td style='width: 60%;'>
+                            <!-- Display solar month, index 0 -->
+                            <div class='panel_1'></div>
+                        </td>
+                        <td style='width: 40%;'>
+                            <!-- Display solar year, index 1 -->
+                            <div class='panel_1'></div>
+                        </td>
+                    </tr>
+                </table>
             </div>
             <div id='date_panel_2' class='date_hide'>
-                Date panel 2
+                <table class='topMY'>
+                    <tr>
+                        <td style='width: 60%;'>
+                            <!-- Display solar month, index 0 -->
+                            <div class='panel_2'></div>
+                        </td>
+                        <td style='width: 40%;'>
+                            <!-- Display solar year, index 1 -->
+                            <div class='panel_2'></div>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </body>
