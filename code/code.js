@@ -1,8 +1,4 @@
 var ip_month, tb_month, sl_timezone, date_0, date_1, date_2;
-var _dayOfWeek = [['T2',String.fromCharCode(0x4e00)],['T3',String.fromCharCode(0x4e8c)],
-                    ['T4',String.fromCharCode(0x4e09)],['T5',String.fromCharCode(0x56db)],
-                    ['T6',String.fromCharCode(0x4e94)],['T7',String.fromCharCode(0x516d)],
-                    ['CN',String.fromCharCode(0x65e5)]];
 const page_load = () => {
     // Initialize control of page
     sl_timezone = document.getElementById('sl_timezone');
@@ -31,7 +27,7 @@ const page_load = () => {
     printPaper(selectedDate);
     slidePaper();
     monthCalendar(dNow.getMonth()+1,dNow.getFullYear());
-    for(i=0;i<7;i++) console.log(vnDOWName[i]);
+    //for(i=0;i<12;i++) console.log(solarMonthName[i][1]);
 }
 var shownPanel;
 var selectedDate;
@@ -98,6 +94,7 @@ const sl_timezone_change = () => {
     }
     ip_month_change();
     printPaper(selectedDate);
+    slidePaper();
 }
 const bt_reset_click = () => {
     var dNow = new Date();
@@ -162,13 +159,55 @@ const slidePaper = () => {
 }
 const enMonthName = ['January','February','March','April','May','June',
                      'July', 'August','September','October','November', 'December'];
-const vnDOWName = [String.fromCharCode(0x54,0x68,0x1b0,0x301,0x20,0x48,0x61,0x69),
-                    String.fromCharCode(0x54,0x68,0x1b0,0x301,0x20,0x42,0x61),
-                    String.fromCharCode(0x54,0x68,0x1b0,0x301,0x20,0x54,0x1b0),
-                    String.fromCharCode(0x54,0x68,0x1b0,0x301,0x20,0x4e,0x103,0x6d),
-                    String.fromCharCode(0x54,0x68,0x1b0,0x301,0x20,0x53,0xe1,0x75),
-                    String.fromCharCode(0x54,0x68,0x1b0,0x301,0x20,0x42,0x61,0x309,0x79),
-                    String.fromCharCode(0x43,0x68,0x75,0x309,0x20,0x4e,0x68,0xe2,0x323,0x74)];
+const _dayOfWeek = [['T2',String.fromCharCode(0x4e00)],['T3',String.fromCharCode(0x4e8c)],
+                     ['T4',String.fromCharCode(0x4e09)],['T5',String.fromCharCode(0x56db)],
+                     ['T6',String.fromCharCode(0x4e94)],['T7',String.fromCharCode(0x516d)],
+                     ['CN',String.fromCharCode(0x65e5)]];
+const dayOfWeekName = [[String.fromCharCode(0x54,0x68,0x1b0,0x301,0x20,0x48,0x61,0x69),
+                        String.fromCharCode(0x661f,0x671f,0x4e00),
+                        'Monday'],
+                        [String.fromCharCode(0x54,0x68,0x1b0,0x301,0x20,0x42,0x61),
+                        String.fromCharCode(0x661f,0x671f,0x4e8c),
+                        'Tuesday'],
+                        [String.fromCharCode(0x54,0x68,0x1b0,0x301,0x20,0x54,0x1b0),
+                        String.fromCharCode(0x661f,0x671f,0x4e09),
+                        'Wednesday'],
+                        [String.fromCharCode(0x54,0x68,0x1b0,0x301,0x20,0x4e,0x103,0x6d),
+                        String.fromCharCode(0x661f,0x671f,0x56db),
+                        'Thursday'],
+                        [String.fromCharCode(0x54,0x68,0x1b0,0x301,0x20,0x53,0xe1,0x75),
+                        String.fromCharCode(0x661f,0x671f,0x4e94),
+                        'Friday'],
+                        [String.fromCharCode(0x54,0x68,0x1b0,0x301,0x20,0x42,0x61,0x309,0x79),
+                        String.fromCharCode(0x661f,0x671f,0x516d),
+                        'Saturday'],
+                        [String.fromCharCode(0x43,0x68,0x75,0x309,0x20,0x4e,0x68,0xe2,0x323,0x74),
+                        String.fromCharCode(0x661f,0x671f,0x65e5),
+                        'Sunday']];
+const solarMonthName = [[String.fromCharCode(0x54,0x68,0xe1,0x6e,0x67,0x20,0x4d,0xf4,0x323,0x74),
+                        String.fromCharCode(0x4e00,0x6708)], // Th1
+                        [String.fromCharCode(0x54,0x68,0xe1,0x6e,0x67,0x20,0x48,0x61,0x69),
+                        String.fromCharCode(0x4e8c,0x6708)], // Th2
+                        [String.fromCharCode(0x54,0x68,0xe1,0x6e,0x67,0x20,0x42,0x61),
+                        String.fromCharCode(0x4e09,0x6708)], // Th3
+                        [String.fromCharCode(0x54,0x68,0xe1,0x6e,0x67,0x20,0x54,0x1b0),
+                        String.fromCharCode(0x56db,0x6708)], // Th4
+                        [String.fromCharCode(0x54,0x68,0xe1,0x6e,0x67,0x20,0x4e,0x103,0x6d),
+                        String.fromCharCode(0x4e94,0x6708)], // Th5
+                        [String.fromCharCode(0x54,0x68,0xe1,0x6e,0x67,0x20,0x53,0xe1,0x75),
+                        String.fromCharCode(0x516d,0x6708)], // Th6
+                        [String.fromCharCode(0x54,0x68,0xe1,0x6e,0x67,0x20,0x42,0x61,0x309,0x79),
+                        String.fromCharCode(0x4e03,0x6708)], // Th7
+                        [String.fromCharCode(0x54,0x68,0xe1,0x6e,0x67,0x20,0x54,0xe1,0x6d),
+                        String.fromCharCode(0x516b,0x6708)], // Th8
+                        [String.fromCharCode(0x54,0x68,0xe1,0x6e,0x67,0x20,0x43,0x68,0xed,0x6e),
+                        String.fromCharCode(0x4e5d,0x6708)], // Th9
+                        [String.fromCharCode(0x54,0x68,0xe1,0x6e,0x67,0x20,0x4d,0x1b0,0x1a1,0x300,0x69),
+                        String.fromCharCode(0x5341,0x6708)], // Th10
+                        [String.fromCharCode(0x54,0x68,0xe1,0x6e,0x67,0x20,0x4d,0x1b0,0x1a1,0x300,0x69,0x20,0x4d,0xf4,0x323,0x74),
+                        String.fromCharCode(0x5341,0x4e00,0x6708)], //Th11
+                        [String.fromCharCode(0x54,0x68,0xe1,0x6e,0x67,0x20,0x4d,0x1b0,0x1a1,0x300,0x69,0x20,0x48,0x61,0x69),
+                        String.fromCharCode(0x5341,0x4e8c,0x6708)]];
 const printPaper = (_date) => {
     var panel = document.getElementsByClassName('panel_' + shownPanel.toString());
     var dow = _date.dayOfWeek();
@@ -182,7 +221,19 @@ const printPaper = (_date) => {
     panel[0].style = 'width: 100%; height: auto; font-size: 150%; padding: 2%;' + 
     'font-weight: bold; color: white; background:' + themeColor[0] + ';';
     panel[0].innerText = enMonthName[_date.Month - 1].toUpperCase();
-    panel[1].style = 'width: 100%; height: auto; font-size: 200%; padding: 2%;' +
+    panel[1].style = 'width: 100%; height: auto; font-size: 120%; padding: 2%;' +
+    'font-weight: bold; color:' + themeColor[1] + ';';
+    panel[1].innerHTML = solarMonthName[_date.Month - 1][sl_timezone.selectedIndex];
+    panel[2].style = 'width: 100%; height: auto; font-size: 200%; padding: 2%;' +
     'font-weight: bold; color: white; background:' + themeColor[1] + '; text-align: right;';
-    panel[1].innerText = _date.Year;
+    panel[2].innerText = _date.Year;
+    panel[3].style = 'width: 100%; height: auto; padding: 0 2% 0 2%; font-size: 250%;' + 
+    'font-weight: bold; text-align: center; color: ' + themeColor[1] + ';';
+    panel[3].innerText = _date.Day;
+    panel[4].style = 'width: 100%; height: auto; padding: 2%; font-size: 120%; text-align: center;' +
+    'font-weight: bold; color: white; background: ' + themeColor[1] + ';';
+    panel[4].innerText = dayOfWeekName[_date.dayOfWeek()][sl_timezone.selectedIndex];
+    panel[5].style = 'width: 100%; height: auto; padding: 2%; font-size: 160%; text-align: center;' +
+    'font-weight: bold; color: white; background: ' + themeColor[0] + ';';
+    panel[5].innerText = dayOfWeekName[_date.dayOfWeek()][2];
 }
