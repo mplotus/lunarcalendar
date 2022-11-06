@@ -72,12 +72,12 @@
     border-radius: 10px;
 }
 #right_panel {
+    position: relative;
     float: left;
     width: 100%;
-    height: 100%;
+    height: 200%;
     user-select: none;
     overflow: hidden;
-    position: relative;
 }
 #date_panel_0 {
     position: absolute;

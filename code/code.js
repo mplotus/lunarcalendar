@@ -4,6 +4,64 @@ const page_load = () => {
     sl_timezone = document.getElementById('sl_timezone');
     ip_month = document.getElementById('ip_month');
     tb_month = document.getElementById('tb_month');
+    // Make 3 paper calendar
+    var rightPanel = document.getElementById('right_panel');
+    for(i=0;i<3;i++) {
+        var date_panel = document.createElement('div');
+        date_panel.id = 'date_panel_' + i.toString();
+        if(i==0) { date_panel.classList.add('date_show'); date_panel.classList.add('date_mid'); }
+        else if(i==1) { date_panel.classList.add('date_show'); date_panel.classList.add('date_behind'); }
+        else date_panel.classList.add('date_hide');
+        // Top table display solar month and year
+        var topMY = document.createElement('table');
+        topMY.classList.add('topMY');
+        var trTopMY = document.createElement('tr');
+        var tdMonth = document.createElement('td');
+        tdMonth.style = 'width: 60%;';
+        for(j=0;j<2;j++) {
+            var dvMonth = document.createElement('div');
+            dvMonth.classList.add('panel_' + i.toString());
+            tdMonth.appendChild(dvMonth);
+        }
+        trTopMY.appendChild(tdMonth);
+        var tdYear = document.createElement('td');
+        tdYear.style = 'width: 40%;';
+        var dvYear = document.createElement('div');
+        dvYear.classList.add('panel_' + i.toString());
+        tdYear.appendChild(dvYear);
+        trTopMY.appendChild(tdYear);
+        topMY.appendChild(trTopMY);
+        date_panel.appendChild(topMY);
+        // Middle table display solar day and day of week
+        var midSD = document.createElement('table');
+        midSD.classList.add('midSD');
+        var trSolarDay = document.createElement('tr');
+        var tdSolarDay = document.createElement('td');
+        tdSolarDay.colSpan = '2';
+        tdSolarDay.style = 'width:100%; font-size: 400%;';
+        var dvSolarDay = document.createElement('div');
+        dvSolarDay.classList.add('panel_' + i.toString());
+        tdSolarDay.appendChild(dvSolarDay);
+        trSolarDay.appendChild(tdSolarDay);
+        midSD.appendChild(trSolarDay);
+        var trDOW = document.createElement('tr');
+        var tdDOW1 = document.createElement('td');
+        tdDOW1.style = 'width: 40%;';
+        var dvDOW1 = document.createElement('div');
+        dvDOW1.classList.add('panel_' + i.toString());
+        tdDOW1.appendChild(dvDOW1);
+        trDOW.appendChild(tdDOW1);
+        var tdDOW2 = document.createElement('td');
+        tdDOW2.style = 'width: 60%';
+        var dvDOW2 = document.createElement('div');
+        dvDOW2.classList.add('panel_' + i.toString());
+        tdDOW2.appendChild(dvDOW2);
+        trDOW.appendChild(tdDOW2);
+        midSD.appendChild(trDOW);
+        date_panel.appendChild(midSD);
+        // Bottom table
+        rightPanel.appendChild(date_panel);
+    }
     date_0 = document.getElementById('date_panel_0');
     date_1 = document.getElementById('date_panel_1');
     date_2 = document.getElementById('date_panel_2');
