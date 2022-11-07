@@ -124,9 +124,7 @@ const fromJulian = _julian => {
     day = e - Math.floor((153 * m + 2) / 5) + 1;
     month = m + 3 - 12 * Math.floor(m / 10);
     year = b * 100 + d - 4800 + Math.floor(m / 10);
-    var date = new SolarDate();
-    date.setFromNumber(day,month,year);
-    return date;
+    return new SolarDate(day,month,year);
 }
 const newMoon = (k, timeZone) => {
     var T, T2, T3, dr, Jd1, M, Mpr, F, C1, deltat, JdNew;

@@ -120,10 +120,17 @@
 .topMY {
     width: 100%;
     height: auto;
+    border: 1px dotted darkgray;
 }
 .midSD {
     width: 100%;
     height: auto;
+    border: 1px dotted darkgray;
+}
+.botInf {
+    width: 100%;
+    height: auto;
+    border: 1px dotted darkgray;
 }
 body {
     font-size: 140%;

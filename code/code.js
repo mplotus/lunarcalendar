@@ -20,6 +20,7 @@ const page_load = () => {
         tdMonth.style = 'width: 60%;';
         for(j=0;j<2;j++) {
             var dvMonth = document.createElement('div');
+            // == Index: 0 & 1, solar month name
             dvMonth.classList.add('panel_' + i.toString());
             tdMonth.appendChild(dvMonth);
         }
@@ -27,6 +28,7 @@ const page_load = () => {
         var tdYear = document.createElement('td');
         tdYear.style = 'width: 40%;';
         var dvYear = document.createElement('div');
+        // == Index: 2, solar year
         dvYear.classList.add('panel_' + i.toString());
         tdYear.appendChild(dvYear);
         trTopMY.appendChild(tdYear);
@@ -40,6 +42,7 @@ const page_load = () => {
         tdSolarDay.colSpan = '2';
         tdSolarDay.style = 'width:100%; font-size: 400%;';
         var dvSolarDay = document.createElement('div');
+        // == Index: 3, solar day
         dvSolarDay.classList.add('panel_' + i.toString());
         tdSolarDay.appendChild(dvSolarDay);
         trSolarDay.appendChild(tdSolarDay);
@@ -48,18 +51,43 @@ const page_load = () => {
         var tdDOW1 = document.createElement('td');
         tdDOW1.style = 'width: 40%;';
         var dvDOW1 = document.createElement('div');
+        // == Index: 4, eastern day of week
         dvDOW1.classList.add('panel_' + i.toString());
         tdDOW1.appendChild(dvDOW1);
         trDOW.appendChild(tdDOW1);
         var tdDOW2 = document.createElement('td');
         tdDOW2.style = 'width: 60%';
         var dvDOW2 = document.createElement('div');
+        // == Index: 5, english day of week
         dvDOW2.classList.add('panel_' + i.toString());
         tdDOW2.appendChild(dvDOW2);
         trDOW.appendChild(tdDOW2);
         midSD.appendChild(trDOW);
         date_panel.appendChild(midSD);
         // Bottom table
+        var botInf = document.createElement('table');
+        botInf.classList.add('botInf');
+        var trBotInf = document.createElement('tr');
+        var tdInf1 = document.createElement('td');
+        tdInf1.style = 'width: 50%;';
+        var dvLMonth = document.createElement('div');
+        // == Index: 6, lunar month
+        dvLMonth.classList.add('panel_' + i.toString());
+        tdInf1.appendChild(dvLMonth);
+        var dvLDay = document.createElement('div');
+        // == Index: 7, lunar day
+        dvLDay.classList.add('panel_' + i.toString());
+        tdInf1.appendChild(dvLDay);
+        var dvLYear = document.createElement('div');
+        // == Index: 8, lunar year
+        dvLYear.classList.add('panel_' + i.toString());
+        tdInf1.appendChild(dvLYear);
+        trBotInf.appendChild(tdInf1);
+        var tdInf2 = document.createElement('td');
+        tdInf2.style = 'width: 50%;';
+        trBotInf.appendChild(tdInf2);
+        botInf.appendChild(trBotInf);
+        date_panel.appendChild(botInf);
         rightPanel.appendChild(date_panel);
     }
     date_0 = document.getElementById('date_panel_0');
@@ -85,7 +113,6 @@ const page_load = () => {
     printPaper(selectedDate);
     slidePaper();
     monthCalendar(dNow.getMonth()+1,dNow.getFullYear());
-    //for(i=0;i<12;i++) console.log(solarMonthName[i][1]);
 }
 var shownPanel;
 var selectedDate;
@@ -242,7 +269,7 @@ const dayOfWeekName = [[String.fromCharCode(0x54,0x68,0x1b0,0x301,0x20,0x48,0x61
                         [String.fromCharCode(0x43,0x68,0x75,0x309,0x20,0x4e,0x68,0xe2,0x323,0x74),
                         String.fromCharCode(0x661f,0x671f,0x65e5),
                         'Sunday']];
-const solarMonthName = [[String.fromCharCode(0x54,0x68,0xe1,0x6e,0x67,0x20,0x4d,0xf4,0x323,0x74),
+const monthName = [[String.fromCharCode(0x54,0x68,0xe1,0x6e,0x67,0x20,0x4d,0xf4,0x323,0x74),
                         String.fromCharCode(0x4e00,0x6708)], // Th1
                         [String.fromCharCode(0x54,0x68,0xe1,0x6e,0x67,0x20,0x48,0x61,0x69),
                         String.fromCharCode(0x4e8c,0x6708)], // Th2
@@ -266,6 +293,8 @@ const solarMonthName = [[String.fromCharCode(0x54,0x68,0xe1,0x6e,0x67,0x20,0x4d,
                         String.fromCharCode(0x5341,0x4e00,0x6708)], //Th11
                         [String.fromCharCode(0x54,0x68,0xe1,0x6e,0x67,0x20,0x4d,0x1b0,0x1a1,0x300,0x69,0x20,0x48,0x61,0x69),
                         String.fromCharCode(0x5341,0x4e8c,0x6708)]];
+const monthFullName = [[String.fromCharCode(0x111, 0x1ee7), String.fromCharCode(0x5927)],
+                        [String.fromCharCode(0x74, 0x68, 0x69, 0x1ebf, 0x75), String.fromCharCode(0x5c0f)]];
 const printPaper = (_date) => {
     var panel = document.getElementsByClassName('panel_' + shownPanel.toString());
     var dow = _date.dayOfWeek();
@@ -281,7 +310,7 @@ const printPaper = (_date) => {
     panel[0].innerText = enMonthName[_date.Month - 1].toUpperCase();
     panel[1].style = 'width: 100%; height: auto; font-size: 120%; padding: 2%;' +
     'font-weight: bold; color:' + themeColor[1] + ';';
-    panel[1].innerHTML = solarMonthName[_date.Month - 1][sl_timezone.selectedIndex];
+    panel[1].innerHTML = monthName[_date.Month - 1][sl_timezone.selectedIndex];
     panel[2].style = 'width: 100%; height: auto; font-size: 200%; padding: 2%;' +
     'font-weight: bold; color: white; background:' + themeColor[1] + '; text-align: right;';
     panel[2].innerText = _date.Year;
@@ -294,4 +323,60 @@ const printPaper = (_date) => {
     panel[5].style = 'width: 100%; height: auto; padding: 2%; font-size: 160%; text-align: center;' +
     'font-weight: bold; color: white; background: ' + themeColor[0] + ';';
     panel[5].innerText = dayOfWeekName[_date.dayOfWeek()][2];
+    var timeZone = ((sl_timezone.selectedIndex==0)?7:8);
+    var _lDate = _date.getLunarDate(timeZone);
+    var m29 = isFullLunar(_date, timeZone)?0:1;
+    panel[6].style = 'width: 100%; padding: 2%; font-size: 100%; text-align:center; font-weight: bold;' + 
+    'color: white; background: ' + themeColor[0] + ';';
+    panel[6].innerHTML = monthName[_lDate.Month - 1][sl_timezone.selectedIndex] + '<br>' +
+                        '<span style="font-size: 70%;">' + 
+                        monthFullName[m29][sl_timezone.selectedIndex].toUpperCase() + '</span>';
+    var mSize = (sl_timezone.selectedIndex == 0)?600:350;
+    panel[7].style = 'width: 100%; padding: 2%; font-size: ' + mSize + '%; text-align: center; ' + 
+    'font-weight: bold; color: ' + themeColor[1] + ';';
+    panel[7].innerText = lunarDayString(_lDate.Day, sl_timezone.selectedIndex);
+    var ySize = (sl_timezone.selectedIndex == 0)?200:150;
+    panel[8].style = 'width: 100%; padding: 2%; font-size: ' + ySize + '%; text-align: center; ' +
+    'font-weight: bold; color: white; background: ' + themeColor[1] + ';';
+    panel[8].innerText = lunarYearString(_lDate.Year, sl_timezone.selectedIndex);
+}
+const isFullLunar = (_date, timeZone) => {
+    var jul = _date.getJulianDate();
+    var lday = _date.getLunarDate(timeZone).Day;
+    var oEnd = 30 - lday;
+    var jEnd = jul + oEnd;
+    var sEnd = fromJulian(jEnd);
+    var lEndDay = sEnd.getLunarDate(timeZone).Day;
+    if(lEndDay == 30) return true;
+    else return false;
+}
+const lunarDayString = (_lunarDay, timeZoneIndex) => {
+    if(timeZoneIndex == 0) return _lunarDay.toString();
+    else {
+        var decStr = [0x4e00, 0x4e8c, 0x4e09, 0x56db, 0x4e94, 0x516d, 0x4e03, 0x516b, 0x4e5d, 0x5341];
+        if(_lunarDay<11) return String.fromCharCode(0x521d,decStr[_lunarDay - 1]);
+        else if(_lunarDay<20) return String.fromCharCode(0x5341, decStr[(_lunarDay % 10) - 1]);
+        else if(_lunarDay==20) return String.fromCharCode(0x4e8c, 0x5341);
+        else if(_lunarDay<30) return String.fromCharCode(0x5eff, decStr[(_lunarDay % 10) - 1]);
+        else return String.fromCharCode(0x4e09,0x5341);
+    }
+}
+const lunarYearString = (_year, timeZoneIndex) => {
+    if(timeZoneIndex == 0) return _year.toString();
+    else {
+        var decStr = [0x96f6, 0x4e00, 0x4e8c, 0x4e09, 0x56db, 0x4e94, 0x516d, 0x4e03, 0x516b, 0x4e5d];
+        var resStr = '';
+        if(_year<10) resStr = String.fromCharCode(decStr[_year]);
+        else if(_year<100)
+            resStr = String.fromCharCode(decStr[Math.floor(_year/10)],decStr[_year % 10]);
+        else if(_year<1000) 
+            resStr = String.fromCharCode(decStr[Math.floor(_year/100)],
+                decStr[Math.floor((_year % 100)/10)], decStr[_year % 10]);
+        else
+            resStr = String.fromCharCode(decStr[Math.floor(_year/1000)],
+                decStr[Math.floor((_year % 1000)/100)],
+                decStr[Math.floor((_year % 100)/10)],
+                decStr[_year % 10]);
+        return resStr + String.fromCharCode(0x5e74);
+    }
 }
