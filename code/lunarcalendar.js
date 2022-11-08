@@ -19,7 +19,9 @@ class SolarDate {
         return this.getJulianDate() - jFst;
     }
     sunLongitude(timeZone) {
-        return sunLongitude(this.getJulian(timeZone), timeZone);
+        var tRes = sunLongitude(this.getJulian(timeZone), timeZone) + (360 / 365.25);
+        if(tRes > 360) tRes -= 360;
+        return tRes;
     }
     solarTerm(timeZone) {
         var cTerm = Math.floor(this.sunLongitude(timeZone) / 15);
