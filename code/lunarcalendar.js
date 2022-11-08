@@ -22,7 +22,23 @@ class SolarDate {
         return sunLongitude(this.getJulian(timeZone), timeZone);
     }
     solarTerm(timeZone) {
-        return Math.floor(this.sunLongitude(timeZone) / 15);
+        var cTerm = Math.floor(this.sunLongitude(timeZone) / 15);
+        var nTerm = (cTerm + 1 > 23)?0:(cTerm + 1);
+        if(nTerm!=0) {
+            var nSunLog = nTerm * 15;
+            var nJul = this.getJulian(timeZone) + 2;
+            var nDate = fromJulian(nJul);
+            var nDateSunLog = nDate.sunLongitude(timeZone);
+            if(nDateSunLog > nSunLog) return nTerm;
+            else return cTerm;
+        }
+        else {
+            var nJul = this.getJulian(timeZone) + 2;
+            var nDateSunLog = fromJulian(nJul).sunLongitude(timeZone);
+            if(nDateSunLog >=0 && nDateSunLog <=15) return 0;
+            else return cTerm;
+        }
+        return 0;
     }
     weekOfMonth() {
         var fMonth = new SolarDate(1, this.Month, this.Year);

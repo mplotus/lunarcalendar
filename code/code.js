@@ -69,8 +69,8 @@ const page_load = () => {
         botInf.classList.add('botInf');
         var trBotInf = document.createElement('tr');
         var tdInf1 = document.createElement('td');
-        tdInf1.style = 'width: 50%;';
-        tdInf1.rowSpan = '6'; // Span to number of row at right column
+        tdInf1.style = 'width: 50%; padding-right: 2%;';
+        tdInf1.rowSpan = '8'; // Span to number of row at right column
         var dvLMonth = document.createElement('div');
         // == Index: 6, lunar month
         dvLMonth.classList.add('panel_' + i.toString());
@@ -416,18 +416,10 @@ const monthName = [[String.fromCharCode(0x54,0x68,0xe1,0x6e,0x67,0x20,0x4d,0xf4,
                         String.fromCharCode(0x5341,0x4e8c,0x6708)]];
 const monthFullName = [[String.fromCharCode(0x111, 0x1ee7), String.fromCharCode(0x5927)],
                         [String.fromCharCode(0x74, 0x68, 0x69, 0x1ebf, 0x75), String.fromCharCode(0x5c0f)]];
-const easternZodiacIcon = [[String.fromCharCode(0x1f42d),String.fromCharCode(0x1f42d)],
-                            [String.fromCharCode(0x1f42e),String.fromCharCode(0x1f42e)],
-                            [String.fromCharCode(0x1f42f),String.fromCharCode(0x1f42f)],
-                            [String.fromCharCode(0x1f431),String.fromCharCode(0x1f430)],
-                            [String.fromCharCode(0x1f432),String.fromCharCode(0x1f432)],
-                            [String.fromCharCode(0x1f40d),String.fromCharCode(0x1f40d)],
-                            [String.fromCharCode(0x1f434),String.fromCharCode(0x1f434)],
-                            [String.fromCharCode(0x1f410),String.fromCharCode(0x1f410)],
-                            [String.fromCharCode(0x1f435),String.fromCharCode(0x1f435)],
-                            [String.fromCharCode(0x1f414),String.fromCharCode(0x1f414)],
-                            [String.fromCharCode(0x1f436),String.fromCharCode(0x1f436)],
-                            [String.fromCharCode(0x1f437),String.fromCharCode(0x1f437)]];
+const easternZodiacIcon = [[0x1f42d,0x1f42d], [0x1f42e,0x1f42e], [0x1f42f,0x1f42f],
+                            [0x1f431,0x1f430], [0x1f432,0x1f432], [0x1f40d,0x1f40d],
+                            [0x1f434,0x1f434], [0x1f410,0x1f410], [0x1f435,0x1f435],
+                            [0x1f414,0x1f414], [0x1f436,0x1f436], [0x1f437,0x1f437]];
 const stemName = [[String.fromCharCode(0x47, 0x69, 0xe1, 0x70),String.fromCharCode(0x7532)],
                     [String.fromCharCode(0x1ea4, 0x74),String.fromCharCode(0x4e59)],
                     [String.fromCharCode(0x42, 0xed, 0x6e, 0x68),String.fromCharCode(0x4e19)],
@@ -497,30 +489,34 @@ const solarTermName = [[String.fromCharCode(0x58, 0x75, 0xe2, 0x6e, 0x20, 0x50, 
                             String.fromCharCode(0x96e8, 0x6c34)], // Vu Thuy
                         [String.fromCharCode(0x4b, 0x69, 0x6e, 0x68, 0x20, 0x54, 0x72, 0x1ead, 0x70), 
                             String.fromCharCode(0x60ca, 0x86f0)]]; // Kinh Trap
+const solarTermIcon = [0x1f391, 0x1f305, 0x1f326, 0x1f306, 0x1f30a, 0x1f30c,
+                        0x1f307, 0x1f31e, 0x1f321, 0x1f342, 0x1f327, 0x1f324, 
+                        0x1f341, 0x1f3d6, 0x1f301, 0x1f32c, 0x1f328, 0x1f3c2,
+                        0x1f384, 0x26f7, 0x1f4a8, 0x1f33c, 0x2614, 0x1f41b];
 const westernZodiacName = [[String.fromCharCode(0x42, 0x1ea1, 0x63, 0x68, 0x20, 0x44, 0x1b0, 0x1a1, 0x6e, 0x67),
-                                'Aries'],
+                                String.fromCharCode(0x767d, 0x7f8a, 0x5ea7)],
                             [String.fromCharCode(0x4b, 0x69, 0x6d, 0x20, 0x4e, 0x67, 0x1b0, 0x75),
-                                'Taurus'],
+                                String.fromCharCode(0x91d1, 0x725b, 0x5ea7)],
                             [String.fromCharCode(0x53, 0x6f, 0x6e, 0x67, 0x20, 0x54, 0x1eed),
-                                'Gemini'],
+                                String.fromCharCode(0x53cc, 0x5b50, 0x5ea7)],
                             [String.fromCharCode(0x43, 0x1ef1, 0x20, 0x47, 0x69, 0x1ea3, 0x69),
-                                'Cancer'],
+                                String.fromCharCode(0x764c, 0x75c7, 0x5ea7)],
                             [String.fromCharCode(0x53, 0x1b0, 0x20, 0x54, 0x1eed),
-                                'Leo'],
+                                String.fromCharCode(0x72ee, 0x5b50, 0x5ea7)],
                             [String.fromCharCode(0x58, 0x1eed, 0x20, 0x4e, 0x1eef),
-                                'Virgo'],
+                                String.fromCharCode(0x5904, 0x5973, 0x5ea7)],
                             [String.fromCharCode(0x54, 0x68, 0x69, 0xea, 0x6e, 0x20, 0x42, 0xec, 0x6e, 0x68),
-                                'Libra'],
+                                String.fromCharCode(0x5929, 0x79e4, 0x5ea7)],
                             [String.fromCharCode(0x54, 0x68, 0x69, 0xea, 0x6e, 0x20, 0x59, 0x1ebf, 0x74),
-                                'Scorpius'],
+                                String.fromCharCode(0x5929, 0x874e, 0x5ea7)],
                             [String.fromCharCode(0x4e, 0x68, 0xe2, 0x6e, 0x20, 0x4d, 0xe3),
-                                'Sagittarius'],
+                                String.fromCharCode(0x5c04, 0x624b, 0x5ea7)],
                             [String.fromCharCode(0x4d, 0x61, 0x20, 0x4b, 0x1ebf, 0x74),
-                                'Capricorn'],
+                                String.fromCharCode(0x6469, 0x7faf, 0x5ea7)],
                             [String.fromCharCode(0x42, 0x1ea3, 0x6f, 0x20, 0x42, 0xec, 0x6e, 0x68),
-                                'Aquarius'],
+                                String.fromCharCode(0x6c34, 0x74f6, 0x5ea7)],
                             [String.fromCharCode(0x53, 0x6f, 0x6e, 0x67, 0x20, 0x4e, 0x67, 0x1b0),
-                                'Pisces'],]
+                                String.fromCharCode(0x53cc, 0x9c7c, 0x5ea7)],];
 const b=0; // Temp for align code
 const printPaper = (_date) => {
     var panel = document.getElementsByClassName('panel_' + shownPanel.toString());
@@ -566,14 +562,55 @@ const printPaper = (_date) => {
     panel[8].style = 'width: 100%; padding: 2%; font-size: ' + ySize + '%; text-align: center; ' +
     'font-weight: bold; color: white; background: ' + themeColor[1] + ';';
     panel[8].innerText = lunarYearString(_lDate.Year, sl_timezone.selectedIndex);
-    panel[9].style = 'width: 100%; text-align: center; color: ' + themeColor[1] + ';';
+    panel[9].style = 'width: 100%; text-align: center; font-weight: bold; color: ' + themeColor[1] + ';';
     panel[9].innerText = roundTo(_date.getJulian(timeZone), 3);
-    panel[10].style = 'width: 100%; text-align: center; color: ' + themeColor[1] + ';';
+    panel[10].style = 'width: 100%; text-align: center; font-weight: bold; color: ' + themeColor[1] + ';';
     panel[10].innerText = degreeFrom(_date.sunLongitude(timeZone));
-    panel[11].style = 'width: 100%; text-align: center; color: ' + themeColor[1] + ';';
+    panel[11].style = 'width: 100%; text-align: center; font-weight: bold; color: ' + themeColor[1] + ';';
     panel[11].innerText = _date.dayOfYear() + 1;
-    panel[12].style = 'width: 100%; text-align: center; color: ' + themeColor[1] + ';';
+    panel[12].style = 'width: 100%; text-align: center; font-weight: bold; color: ' + themeColor[1] + ';';
     panel[12].innerText = _date.weekOfYear() + 1;
+    var lunarYear = _lDate.Year;
+    var brLYear = (lunarYear + 8) % 12;
+    var stLYear = (lunarYear + 6) % 10;
+    panel[13].innerHTML = '&#' + easternZodiacIcon[brLYear][sl_timezone.selectedIndex] + ';';
+    var lyName = ((sl_timezone.selectedIndex==0)?String.fromCharCode(0x4e, 0x103, 0x6d, 0x20):'') + 
+        stemName[stLYear][sl_timezone.selectedIndex] + ((sl_timezone.selectedIndex==0)?' ':'') +
+        branchName[brLYear][sl_timezone.selectedIndex] + 
+        ((sl_timezone.selectedIndex!=0)?String.fromCharCode(0x5e74):'');
+    panel[14].style = 'width: 100%; text-align: center; font-size: 80%; font-weight: bold; ' +
+    'color: ' + themeColor[1] + ';';
+    panel[14].innerText = lyName;
+    var lunarMonth = _lDate.Month;
+    var brLMon = (lunarMonth + 1) % 12;
+    var stLMon = (lunarMonth + 3 + lunarYear * 12) % 10;
+    panel[15].innerHTML = '&#' + easternZodiacIcon[brLMon][sl_timezone.selectedIndex] + ';';
+    var lmName = ((sl_timezone.selectedIndex==0)?String.fromCharCode(0x54, 0x68, 0xe1, 0x6e, 0x67, 0x20):'') + 
+        stemName[stLMon][sl_timezone.selectedIndex] + ((sl_timezone.selectedIndex==0)?' ':'') +
+        branchName[brLMon][sl_timezone.selectedIndex] + 
+        ((sl_timezone.selectedIndex!=0)?String.fromCharCode(0x6708):'');
+    panel[16].style = 'width: 100%; text-align: center; font-size: 80%; font-weight: bold; ' + 
+    'color: ' + themeColor[1] + ';';
+    panel[16].innerText = lmName;
+    var julDate = _date.getJulianDate();
+    var brLDay = (julDate + 1) % 12;
+    var stLDay = (julDate + 9) % 10;
+    panel[17].innerHTML = '&#' + easternZodiacIcon[brLDay][sl_timezone.selectedIndex] + ';';
+    var ldName = ((sl_timezone.selectedIndex==0)?String.fromCharCode(0x4e, 0x67, 0xe0, 0x79, 0x20):'') + 
+        stemName[stLDay][sl_timezone.selectedIndex] + ((sl_timezone.selectedIndex==0)?' ':'') +
+        branchName[brLDay][sl_timezone.selectedIndex] + 
+        ((sl_timezone.selectedIndex!=0)?String.fromCharCode(0x65e5):'');
+    panel[18].style = 'width: 100%; text-align: center; font-size: 80%; font-weight: bold; ' + 
+    'color: ' + themeColor[1] + ';';
+    panel[18].innerText = ldName;
+    var solTerm = _date.solarTerm(timeZone);
+    panel[19].innerHTML = '&#' + solarTermIcon[solTerm] + ';';
+    panel[20].style = 'width: 100%; text-align: center; font-weight: bold; color: ' + themeColor[1] + ';';
+    panel[20].innerText = solarTermName[solTerm][sl_timezone.selectedIndex];
+    var wZodiac = Math.floor(solTerm / 2);
+    panel[21].innerHTML = String.fromCharCode(0x2648 + wZodiac);
+    panel[22].style = 'width: 100%; text-align: center; font-weight: bold; color: ' + themeColor[1] + ';';
+    panel[22].innerText = westernZodiacName[wZodiac][sl_timezone.selectedIndex];
 }
 const isFullLunar = (_date, timeZone) => {
     var jul = _date.getJulianDate();
